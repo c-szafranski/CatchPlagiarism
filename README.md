@@ -12,7 +12,7 @@
  **********************************************************************/
 <Chris Szafranski>
 /**********************************************************************
-Running from command line: call function FileProcDemo(String pathToFiles, int nGramLength, int sensitivity) in Main.java 
+Running from command line: call function FileProcDemo({String pathToFiles,String nGram,String sensitivity}) in Main.java 
 
 This Java program implements Hashmaps, TreeMaps, Queues, and ArrayList data structures to find n-Gram matches between .txt documents. 
 Given a path to a file folder the program will read the files and build document nodes with a field for a hashmap and a file name. 
