@@ -1,4 +1,4 @@
-
+import java.util.TreeMap;
 import java.util.Iterator;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,11 +13,11 @@ import java.io.FileNotFoundException;
 /**
  * Main class to run the Plagarism catcher
  *
- * @author Chris Szafranski ID:877380293
+ * @author Chris Szafranski 
  * @version Dec 5, 2015
  */
 public class Main
-{ // C:\\Users\\Chris\\Desktop\\small_set
+{
     public static int           nGram   = 0;
     public static String        path;
     public static List<Integer> Matches = new ArrayList<Integer>();
@@ -28,7 +28,7 @@ public class Main
     /**
      * Main Method
      *
-     * @param args
+     * @param args {Path,nGram,threshold}
      * @throws FileNotFoundException
      */
     public static void main(String[] args)
@@ -56,11 +56,7 @@ public class Main
         }
         System.out.println("Adding documents to list...");
 
-        List<DocNode> docs = addFiles(listOfFiles);
-
-        Map<Integer, String> matches = findMatches(docs);
-
-        printMap(matches);
+        printMap(findMatches(addFiles(listOfFiles)));
         again();
 
     }
@@ -68,7 +64,7 @@ public class Main
 
 // ----------------------------------------------------------
     /**
-     * Runs the code
+     * Runs the code. Function to be called from console
      *
      * @throws FileNotFoundException
      */
@@ -77,7 +73,12 @@ public class Main
     {
         main(s);
     }
-
+// ----------------------------------------------------------
+    /**
+     * Asks user if they would like to run program for another set
+     *
+     * @throws FileNotFoundException
+     */
 
     private static void again()
         throws FileNotFoundException
@@ -87,7 +88,8 @@ public class Main
         System.out.println("Enter (Y) for yes");
         if (scan.next().equals("y") || scan.next().equals("Y"))
         {
-            main(null);
+            String[] s= {};
+            main(s);
         }
         else
         {
@@ -95,64 +97,73 @@ public class Main
             return;
         }
     }
-
+// ----------------------------------------------------------
+    /**
+     * Prints solution
+     */
 
     private static void printMap(Map<Integer, String> matches)
     {
+        System.out.println();
+        for (Map.Entry<Integer, String> entry : matches.entrySet())
+        {
+            System.out.println(entry.getValue() + " match: " + entry.getKey());
+        }
         System.out.println("Done");
 
     }
 
-
-    private static Map<Integer, String> findMatches(List<DocNode> docs)
+// ----------------------------------------------------------
+    /**
+     * Solver finds matches between documents and saves them in a TreeMap
+     * @param Array of DocNodes 
+     *@return TreeMap<Integer,String> <Count,"Doc1 and Doc2">
+     */
+    private static TreeMap<Integer, String> findMatches(List<DocNode> docs)
     {
-        Map<Integer, String> matches = new HashMap<Integer, String>();
+        TreeMap<Integer, String> matches = new TreeMap<Integer, String>(); //map to hold matches and match count
         System.out.println("Finding similarities...");
-        for (int i = 0; i < docs.size(); i++)
+        for (int i = 0; i < docs.size(); i++)//going through all documents from start
         {
-            Map<Integer, String> mapA = docs.get(i).getMap();
+            Map<Integer, String> mapA = docs.get(i).getMap();//map of first doc
 
-            for (int j = i + 1; j < docs.size(); j++)
+            for (int j = i + 1; j < docs.size(); j++)//comparing doc i with doc i+1
             {
 
                 Iterator it = mapA.entrySet().iterator();
-                Map<Integer, String> mapB = docs.get(j).getMap();
+                Map<Integer, String> mapB = docs.get(j).getMap();//doc i+1 map
                 int match = 0;
-/*
- * System.out.println("New doc is " + docs.get(j).getName() +
- * " Matches reset to " + match);
- */
-                while (it.hasNext())
-                // for (Integer k : mapA.keySet())
+
+                while (it.hasNext())//comparing all hashkeys 
                 {
-                    // Map.Entry pair = (Map.Entry)it.next();
-                    // System.out.print("Key in question: " + pair.getKey());
                     Map.Entry pair = (Map.Entry)it.next();
                     if (mapB.containsKey(pair.getKey()))
                     {
-                        match++;
+                        match++;//count match
                     }
 
                 }
-                if (match > thresh)
+                if (match > thresh)//if matches are greater than threshold add to treemap
                 {
-
-                    System.out.println(docs.get(i).getName() + " and "
-                        + docs.get(j).getName() + " match: " + match);
-                    Matches.add(match);
+                    System.out.print(".");// indication of work being
+                    String str =
+                        docs.get(i).getName() + " and " + docs.get(j).getName();
+                    matches.put(match, str);
 
                 }
 
-                String str =
-                    docs.get(i).getName() + " and " + docs.get(j).getName();
-                matches.put(match, str);
             }
         }
 
         return matches;
     }
 
-
+// ----------------------------------------------------------
+    /**
+     * Adds all files in File[] to a new array of Document Nodes
+     *@param File[] array of files 
+     * @return List<DocNode> an array of DocNode objects
+     */
     private static List<DocNode> addFiles(File[] listOfFiles)
         throws FileNotFoundException
     {
@@ -160,26 +171,34 @@ public class Main
         List<DocNode> array = new ArrayList();
         for (int i = 1; i < listOfFiles.length; i++)
         {
+            System.out.println();
             try
             {
                 String name = listOfFiles[i].getName();
-                System.out.println("Adding " + name);
-
-                DocNode doc =
+                System.out.print("Adding " + name + " ...");
+                //creating new doc node
+                DocNode doc = 
                     new DocNode(buildMap(listOfFiles[i], nGram), name);
-                array.add(doc);
+                array.add(doc);//adding to list
                 count++;
+                System.out.print(" added");
             }
             catch (Exception e)
             {
-                i++;
+                i++; //in some cases documents fail to get added
             }
+
         }
+        System.out.println();
         System.out.println(count + " documents added");
         return array;
 
     }
-
+// ----------------------------------------------------------
+    /**
+     * Welcome routine
+     *
+     */
 
     private static void printWelcome()
     {
@@ -189,7 +208,7 @@ public class Main
         System.out.println("Enter path to files: ");
         path = scan.nextLine();
         System.out.println("Enter length of n-gram (n) : ");
-        while (!scan.hasNextInt())
+        while (!scan.hasNextInt())//in case invalid input is entered
         {
             try
             {
@@ -205,7 +224,7 @@ public class Main
         }
         nGram = scan.nextInt();
         System.out.println("Please enter threshold of matches as an integer: ");
-        while (!scan.hasNextInt())
+        while (!scan.hasNextInt())//in case invalid input is entered
         {
             try
             {
@@ -254,7 +273,7 @@ public class Main
             }
             catch (Exception e)
             {
-                // System.out.println("Wierd ass character detected!");
+                //in case an unhandled character is in document
                 q.enque("char"); // enque the first x members
                 count = 1;
             }
