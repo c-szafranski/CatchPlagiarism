@@ -4,10 +4,11 @@ import java.util.Map;
 
 // -------------------------------------------------------------------------
 /**
- * This class will all the information for a document A hashmap of integer forms
- * of the document
+ * This class will hold all the information for a document
+ * A HashMap<Integer,String> <Hashcode of value, value>
+ * A String name of document 
  *
- * @author Chris
+ * @author Chris Szafranski
  * @version Dec 5, 2015
  */
 public class DocNode
