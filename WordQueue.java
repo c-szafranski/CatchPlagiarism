@@ -2,16 +2,16 @@ import java.util.ArrayList;
 
 // -------------------------------------------------------------------------
 /**
- * A single queue will only hold six words
+ * A single queue will only hold a variable number of words given by the user
  *
- * @author Chris
+ * @author Chris Szafranski
  * @version Nov 18, 2015
  */
 public class WordQueue<T>
 {
 
     private int          size;
-    private int          length; // this will hold the current pos in the array
+    private int          length; 
     private ArrayList<T> q;
 
 
@@ -52,7 +52,7 @@ public class WordQueue<T>
     {
         if (size < length)
         {
-            // System.out.println("Size is " + this.size);
+          
             q.add(x); // adds element to end of list
             size++;
         }
@@ -65,7 +65,7 @@ public class WordQueue<T>
 
     // ----------------------------------------------------------
     /**
-     * deques element in tail of node
+     * deques element in tail of queue
      */
     public void deque()
     {
@@ -132,6 +132,6 @@ public class WordQueue<T>
         return str.toString();
 
     }
-// we may not need anything else for this class
+
 
 }
