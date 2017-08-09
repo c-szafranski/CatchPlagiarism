@@ -1,22 +1,41 @@
 # CatchPlagiarism
 
 
-/**********************************************************************
- *  README.txt                                                   
- *  Plagiarism Catcher
- *  Classes:
+#Documents
+ *  README.md                                                   
  *  -Main.java
  *  -DocNode.java
  *  -WordQueue.java
  *  
- **********************************************************************/
-Author: Chris Szafranski
-/**********************************************************************
-Brief: This package will detect plagiarism between .txt documents and return a list of most similar documents
+#License 
+Free to use and distribute modify and enhance with due credit given to it's author Christopher Szafranski 
+#Author Chris Szafranski Dec. 5th 2015
 
 
-Implementation: 
-This Java program implements Hashmaps, TreeMaps, Queues, and ArrayList data structures to find n-Gram matches between .txt documents. 
+#Brief
+This program takes a string Path to a directory in which you would like to compare .txt files.
+The second parameter is an nGram where 'n' is the word sample size. 
+This integer number should be between 5-9 for best results
+The last parameter is an integer threshold which indicates at how many nGram matches to flag a document as a match
+
+#Run
+#Mac OS 
+As of OS X 10.2 the java compiler is native to the OS. Assuming you have at least OS X 10.2 installed to compile this project open up Terminal and navigate into the project directory. 
+Run 
+>javac Main.java DocNode.java WordQueue.java 
+>java Main [String Path, int nGram, int threshold]
+
+or run without parameters to be guided through each step by the program i.e
+>java Main
+
+#Windows
+Same deal as Mac OS but you might have to download the java sdk and place it in your enviorment variables before continuing on to run the commands listed above. 
+
+
+#Implementation
+This Java program implements Hashmaps, TreeMaps, Queues, and ArrayList data structures to find n-Gram matches between .txt documents. These nGrams are essentially an 'n' is how many consecutive words are sampled for comparison. 
+This allows a certain measure for tollerance in detecting plagerism. The third parameter is a threshold of how many matches two documents must have before they get flagged as plagerised. The first parameter is a path to the folder 
+/directory to the .txt files to be tested.
 
 Upon starting a welcome message will appear and the user will enter a path to a folder and an n-gram length (n) and a threshold for matches. 
 The program will detect invalid paths and will detect a non-integer entry for the n-Gram length. 
@@ -35,11 +54,9 @@ I allowed for the code to be run in the console with the user entering paths and
 friendly approach as well as calling the FileProcDemo() method that will run the main class with given arguments. 
 It allows for flexibility and will catch invalid paths and arguments. 
 
-Running from command line: call function FileProcDemo({String pathToFiles,String nGram,String sensitivity}) in Main.java 
 
 
-
-/**********************************************************************
- end 
- **********************************************************************/
-
+#Future Feartures
+* Acceptance of various file types (docx,doc, md, exc.)
+* UI interface (maybe)
+* Scaling for larger data sets 
